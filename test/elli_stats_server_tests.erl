@@ -12,7 +12,7 @@
 
 
 ets_test() ->
-    {ok, _} = elli_stats_server:start_link(foo, self()),
+    {ok,_} = elli_stats_server:start_link(foo, self()),
 
     elli_stats_server:request(foo, <<"bar">>, ?EXAMPLE_REQUEST),
     elli_stats_server:request(foo, <<"bar">>, ?EXAMPLE_REQUEST),
@@ -21,17 +21,20 @@ ets_test() ->
     elli_stats_server:request(foo, <<"bar">>, ?EXAMPLE_REQUEST),
     elli_stats_server:request(foo, <<"bar">>, ?EXAMPLE_REQUEST),
 
-    Stats = elli_stats_server:get_stats(foo, self()),
-    ?assertEqual({[{timings,{[{'_total',{[{mean,9.0},
-                                          {sd,0.0},
-                                          {observations,6},
-                                          {p95,9},
-                                          {p99,9},
-                                          {p999,9}]}},
-                              {<<"bar">>,
-                               {[{mean,9.0},
-                                 {sd,0.0},
-                                 {observations,6},
-                       {p95,9},
-                                 {p99,9},
-                                 {p999,9}]}}]}}]}, Stats).
+
+    %% timer:sleep(400),
+    Expected = [{'_total',[{mean,9.0},
+                           {sd,0.0},
+                           {observations,6},
+                           {p95,9},
+                           {p99,9},
+                           {p999,9}]},
+                {<<"bar">>,
+                 [{mean,9.0},
+                  {sd,0.0},
+                  {observations,6},
+                  {p95,9},
+                  {p99,9},
+                  {p999,9}]}],
+    [{timings,Stats}] = elli_stats_server:get_stats(foo, self()),
+    ?assertEqual(Expected, Stats).

@@ -1,11 +1,5 @@
-{application, elli_stats,
- [
-  {description, ""},
-  {vsn, "1"},
-  {registered, []},
-  {applications, [
-                  kernel,
-                  stdlib
-                 ]},
-  {env, []}
- ]}.
+{application, elli_stats, [
+  {description, "Elli middleware for a real-time stats dashboard"},
+  {vsn, "0.1.0"},
+  {applications, [kernel,stdlib]}
+]}.
